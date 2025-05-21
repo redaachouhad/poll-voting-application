@@ -1,0 +1,52 @@
+<div class="container mt-4">
+  <h2 class="text-center my-5">Create Poll</h2>
+  <div class="mb-3">
+    <input
+      [(ngModel)]="newPoll.question"
+      [value]="newPoll.question"
+      type="text"
+      placeholder="Poll Question"
+      class="form-control"
+      required
+    />
+    <br>
+
+    @for (option of newPoll.options;let i = $index;  track trackByIndex(i)) {
+      <div class="d-flex flex-row justify-content-start gap-3">
+        <input type="text" class="form-control" placeholder="Option {{i + 1}}" [(ngModel)]="newPoll.options[i].voteOption" [value]="newPoll.options[i].voteOption" required>
+        @if(newPoll.options.length > 2){
+          <button class="btn btn-danger" (click)="removeOption(i)">Remove</button>
+        }
+      </div>
+      <br>
+    }
+
+    <div class="d-flex flex-row justify-content-start align-items-center gap-3">
+      <button class="btn btn-warning mr-4" (click)="addAnotherOption()">Add Another Option</button>
+      <button class="btn btn-primary" (click)="createPoll()">Create Poll</button>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<h2 class="text-center my-5">Available Polls</h2>
+
+<div class="mb-5 d-flex justify-content-center align-items-center flex-column gap-5">
+  @for (poll of polls; track poll.id) {
+    <div class="border border-primary rounded p-3 w-50">
+      <h5 class="mb-3">{{poll.question}}</h5>
+      <div class="d-flex flex-column gap-3 justify-content-start align-items-start">
+        @for (option of poll.options; let i = $index; track option){
+          <button class="btn btn-outline-primary" (click)="vote(poll.id, i)">
+            {{option.voteOption}} ({{option.voteCount}} votes)
+          </button>
+        }
+      </div>
+    </div>
+  }
+</div>
+
+
